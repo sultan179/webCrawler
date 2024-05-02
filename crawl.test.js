@@ -75,3 +75,71 @@ test('getURLsFromHTML absolute url',()=>{
     const expected=["https://blog.boot.dev/"]
     expect(actual).toEqual(expected)
 })
+
+test('getURLsFromHTML relative url',()=>{
+
+    const inputHTMLBody=
+    `
+    <html>
+        <body>
+        <a href="https://blog.boot.dev/path1/">
+        Boot.dev Blog path1
+        </a>
+        <a href="https://blog.boot.dev/path2/">
+        Boot.dev Blog path2
+        </a> 
+        </body>
+    </html>
+    
+    
+    `
+
+    const inputBaseURL="https://blog.boot.dev"
+    const actual=getURLsFromHTML(inputHTMLBody,inputBaseURL)
+    const expected=["https://blog.boot.dev/path1/","https://blog.boot.dev/path2/"]
+    expect(actual).toEqual(expected)
+})
+
+test('getURLsFromHTML relative url',()=>{
+
+    const inputHTMLBody=
+    `
+    <html>
+        <body>
+        <a href="/path/">
+        Boot.dev Blog
+        </a>
+        </body>
+    </html>
+    
+    
+    `
+
+    const inputBaseURL="https://blog.boot.dev"
+    const actual=getURLsFromHTML(inputHTMLBody,inputBaseURL)
+    const expected=["https://blog.boot.dev/path/"]
+    expect(actual).toEqual(expected)
+})
+
+
+test('getURLsFromHTML invalid url',()=>{
+
+    const inputHTMLBody=
+    `
+    <html>
+        <body>
+        <a href="invalid">
+        Boot.dev Blog path1
+        </a>
+        
+        </body>
+    </html>
+    
+    
+    `
+
+    const inputBaseURL="https://blog.boot.dev"
+    const actual=getURLsFromHTML(inputHTMLBody,inputBaseURL)
+    const expected=[]
+    expect(actual).toEqual(expected)
+})
